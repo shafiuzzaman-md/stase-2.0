@@ -1,0 +1,10 @@
+{
+    "type": "STACK_EXEC",
+    "file": "../inputs/../stase_generated_last/instrumented_source/UefiCpuPkg/PiSmmCpuDxeSmm/SmmLegacy.c",
+    "line": 42,
+    "variables": [
+        "IoRead8_ret"
+    ],
+    "assertion": "((Attribute & EFI_MEMORY_XP) != 0)",
+    "precondition": "IoRead8_ret : int32 = symbolic\n(query [(Ult Read int32 IoRead8_ret\n              256)]\n        FALSE)"
+}

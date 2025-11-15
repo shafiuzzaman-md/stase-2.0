@@ -1,0 +1,8 @@
+UefiCpuPkg/PiSmmCpuDxeSmm/PiSmmCpuDxeSmm/OUTPUT/SmmLegacy.obj
+OvmfPkg/B2SmmDriver/B2SmmDriver/OUTPUT/B2SmmDriver.obj
+OvmfPkg/AccessRWVar/AccessRWVar/OUTPUT/AccessRWVar.obj
+OvmfPkg/KeyVault/KeyVault/OUTPUT/KeyVault.obj
+OvmfPkg/HardwareManager/HardwareManager/OUTPUT/HardwareManager.obj
+OvmfPkg/HardwareHandler/HardwareHandler/OUTPUT/HardwareHandler.obj
+OvmfPkg/RdtscControl/RdtscControl/OUTPUT/RdtscControl.obj
+MdeModulePkg/Universal/FaultTolerantWriteDxe/FaultTolerantWriteSmm/OUTPUT/FaultTolerantWriteSmm.obj

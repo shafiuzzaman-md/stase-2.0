@@ -1,0 +1,1 @@
+KUDU_TESTCASES/ktemp25.bc

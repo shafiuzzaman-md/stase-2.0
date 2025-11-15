@@ -1,0 +1,8 @@
+config KHEAP
+	bool "Kernel internal heap allocator (kheap)"
+	default y
+	help
+	  Enables the internal kernel heap allocator using an implicit free list.
+	  This allocator provides basic allocation and free operations for use by
+	  kernel components without using slab or vmalloc. Intended for internal-only
+	  memory management.

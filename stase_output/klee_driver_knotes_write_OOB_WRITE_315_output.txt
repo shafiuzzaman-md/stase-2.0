@@ -1,0 +1,32 @@
+Preconditions:
+cmd : int32 = symbolic
+array copy_from_user(&head, buf, sizeof(head)[20] : w32 -> w8 = symbolic
+file : int32 = symbolic
+len : int32 = symbolic
+ncmd : int32 = symbolic
+(query [(Eq FALSE
+             (Eq 0
+                 (ReadLSB int64 0 file)))
+         (Eq FALSE
+             (Ult N0:(ReadLSB int64 0 len)
+                  20))
+         (Eq FALSE (Ult 2048 N0))
+         (Eq FALSE
+             (Ult 2048
+                  (ReadLSB w32 12 copy_from_user(&head, buf, sizeof(head))))
+         (Eq 0
+             (And w32 (ZExt w32 (Read w8 16 copy_from_user(&head, buf, sizeof(head)))
+                      1))
+         (Eq FALSE (Ult N0 17))
+         (Eq 0
+             (ReadLSB w32 8 copy_from_user(&head, buf, sizeof(head)))
+         (Eq 1
+             Read int32 cmd)
+         (Ult (ReadLSB w32 12 ncmd)
+              (ReadLSB w32 8 ncmd))]
+        FALSE)
+
+Postconditions:
+Error: ASSERTION FAIL: dst->payload_len < alloc_capacity && "OOB write: meta index >= capacity"
+File: ../inputs/../stase_generated_last/instrumented_source/drivers/knotes/knotes.c
+Line: 315

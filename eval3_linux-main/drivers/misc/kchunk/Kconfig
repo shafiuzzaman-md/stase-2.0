@@ -1,0 +1,13 @@
+config KCHUNK
+    bool "Kernel handle-based heap allocator"
+    default y
+    help
+      Enables the kernel chunk allocator subsystem, which provides a handle-based
+      fixed-size memory chunk allocator for kernel-internal use. This allocator
+      supports multiple size classes, dynamic region growth, and concurrency-safe
+      access via spinlocks.
+
+      This option is intended for use by other kernel components that require
+      fast and predictable memory chunk allocation behavior.
+
+      If unsure, say Y.

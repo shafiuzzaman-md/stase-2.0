@@ -1,0 +1,9 @@
+{
+    "type": "OOB_WRITE",
+    "file": "drivers/usb/misc/vusbx.c",
+    "line": 32,
+    "variables": [
+        "*user_buffer",
+        "count"
+    ]
+}

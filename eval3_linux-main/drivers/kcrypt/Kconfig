@@ -1,0 +1,9 @@
+config KCRYPT
+    tristate "kcrypt: AES-ECB Kernel Crypto Module using kchunk"
+    depends on KCHUNK
+    default m
+    help
+      Enables the kcrypt kernel module, which performs AES-ECB
+      encryption and decryption using the in-kernel crypto API
+      and a custom chunk-based allocator (kchunk). Intended for
+      controlled heap allocation and crypto operation experiments.

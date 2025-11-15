@@ -1,0 +1,17 @@
+Preconditions:
+array UdpPacket->TotalSize[8] : w32 -> w8 = symbolic
+(query [(Eq FALSE
+             (Ult (Add w32 4294967295
+                           (LShr w32 (And w32 (Add w32 15
+                                                       (Extract w32 0 (And int64 (Add int64 3
+                                                                                        (ReadLSB int64 0 UdpPacket->TotalSize))
+                                                                               18446744073709551612)))
+                                              4294967280)
+                                     4))
+                  32))]
+        FALSE)
+
+Postconditions:
+Error: ASSERTION FAIL: (Index < NET_POOL_BUCKETS)
+File: ../inputs/../stase_generated_last/instrumented_source/NetworkPkg/Library/DxeNetLib/NetHeap.c
+Line: 203

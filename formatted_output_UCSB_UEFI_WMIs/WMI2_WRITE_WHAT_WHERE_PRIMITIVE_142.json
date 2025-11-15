@@ -1,0 +1,8 @@
+{
+    "type": "WRITE_WHAT_WHERE",
+    "file": "CharConverter.c",
+    "line": 142,
+    "variables": [
+         "*CommBuffer"
+    ]
+}

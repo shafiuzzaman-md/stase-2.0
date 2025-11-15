@@ -1,0 +1,10 @@
+Preconditions:
+IoRead8_ret : int32 = symbolic
+(query [(Ult Read int32 IoRead8_ret
+              256)]
+        FALSE)
+
+Postconditions:
+Error: ASSERTION FAIL: ((Attribute & EFI_MEMORY_XP) != 0)
+File: ../inputs/../stase_generated_last/instrumented_source/UefiCpuPkg/PiSmmCpuDxeSmm/SmmLegacy.c
+Line: 42

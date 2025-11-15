@@ -1,0 +1,12 @@
+// THIS FILE HAS BEEN GENERATED AUTOMATICALLY! DO NOT EDIT!
+//
+// NB: Remember to add the path to the parent analysis file:
+// #include "files.dl"
+.init FilesDebug = Files
+.output FilesDebug.instr_opens_file
+.output FilesDebug.instr_reads_file
+.output FilesDebug.instr_closes_file
+.output FilesDebug.instr_writes_file
+.output FilesDebug.file_opened
+.output FilesDebug.file_read
+.output FilesDebug.file_closed

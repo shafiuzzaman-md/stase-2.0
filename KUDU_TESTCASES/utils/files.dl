@@ -1,0 +1,132 @@
+.comp Files {
+	.init utils = Utils
+
+	.decl instr_opens_file(?instr: CallBase, ?tgtFn: Function, ?fileDescriptor: Operand, ?filenameOperand: Operand, ?modeOperand: Operand)
+	.decl instr_reads_file(?instr: CallBase, ?tgtFn: Function, ?fileDescriptor: Operand, ?returnValue: Operand)
+	.decl instr_closes_file(?instr: CallBase, ?tgtFn: Function, ?fileDescriptor: Operand, ?returnValue: Operand)
+	.decl instr_writes_file(?instr: CallBase, ?tgtFn: Function, ?fileDescriptor: Operand, ?returnValue: Operand)
+	.decl file_opened(?callInstr: CallBase, ?fileDescriptor: Operand, ?filenameOperand: Operand, ?modeOperand: Operand)
+	.decl file_read(?callInstr: CallBase, ?fileDescriptor: Operand, ?filenameOperand: Operand, ?modeOperand: Operand)
+	.decl file_closed(?callInstr: CallBase, ?fileDescriptor: Operand, ?returnValue: Operand)
+
+	//
+	// instr_opens_file
+	//
+
+	instr_opens_file(?instr, ?tgtFn, ?fileDescriptor, ?filenameOperand, ?modeOperand) :-
+		utils.instr_calls_func_with_name(?instr, ?tgtFn, "fopen"),
+		utils.called_function_argument(?instr, ?tgtFn, ?filenameOperand, 0),
+		utils.called_function_argument(?instr, ?tgtFn, ?modeOperand, 1),
+		utils.func_retval(?tgtFn, ?fileDescriptor).
+
+	//
+	// instr_reads_file
+	//
+
+	instr_reads_file(?instr, ?tgtFn, ?fileDescriptor, ?returnValue) :-
+		(
+			?name = "fgetc";
+			?name = "getc"
+		),
+		utils.instr_calls_func_with_name(?instr, ?tgtFn, ?name),
+		utils.called_function_argument(?instr, ?tgtFn, ?fileDescriptor, 0),
+		utils.func_retval(?tgtFn, ?returnValue).
+
+	// TODO: var args for fscanf and fscanf_s
+	// instr_reads_file(?instr, ?tgtFn, ?fileDescriptor) :-
+	// 	utils.instr_calls_func_with_name(?instr, ?tgtFn, ?name),
+	// 	(
+	//   		?name = "fscanf";
+	//   		?name = "fscanf_s"
+	// 	),
+	// 	utils.called_function_argument(?instr, ?tgtFn, ?fileDescriptor, 0).
+
+	instr_reads_file(?instr, ?tgtFn, ?fileDescriptor, ?returnValue) :-
+		utils.instr_calls_func_with_name(?instr, ?tgtFn, ?name),
+		(
+			?name = "getline";
+			?name = "fgets"
+		),
+		utils.called_function_argument(?instr, ?tgtFn, ?fileDescriptor, 2),
+		utils.func_retval(?tgtFn, ?returnValue).
+	
+	instr_reads_file(?instr, ?tgtFn, ?fileDescriptor, ?returnValue) :-
+		utils.instr_calls_func_with_name(?instr, ?tgtFn, "fread"),
+		utils.called_function_argument(?instr, ?tgtFn, ?fileDescriptor, 3),
+		utils.func_retval(?tgtFn, ?returnValue).
+
+	instr_reads_file(?instr, ?tgtFn, ?fileDescriptor, ?returnValue) :-
+		utils.instr_calls_func_with_name(?instr, ?tgtFn, "fread_s"),
+		utils.called_function_argument(?instr, ?tgtFn, ?fileDescriptor, 4),
+		utils.func_retval(?tgtFn, ?returnValue).
+
+	//
+	// instr_closes_file
+	//
+
+	instr_closes_file(?instr, ?tgtFn, ?fileDescriptor, ?returnValue) :-
+		utils.instr_calls_func_with_name(?instr, ?tgtFn, "fclose"),
+		utils.called_function_argument(?instr, ?tgtFn, ?fileDescriptor, 0),
+		utils.func_retval(?tgtFn, ?returnValue).
+
+	//
+	// instr_writes_file
+	//
+
+	instr_writes_file(?instr, ?tgtFn, ?fileDescriptor, ?returnValue) :-
+		(
+			?name = "fprintf";
+			?name = "vfprintf";
+			?name = "fprintf_s"
+		),
+		utils.instr_calls_func_with_name(?instr, ?tgtFn, ?name),
+		utils.called_function_argument(?instr, ?tgtFn, ?fileDescriptor, 0),
+		utils.func_retval(?tgtFn, ?returnValue).
+
+	instr_writes_file(?instr, ?tgtFn, ?fileDescriptor, ?returnValue) :-
+		(
+			?name = "fputc";
+			?name = "putc";
+			?name = "fputs";
+			?name = "fputs_s"
+		),
+		utils.instr_calls_func_with_name(?instr, ?tgtFn, ?name),
+		utils.called_function_argument(?instr, ?tgtFn, ?fileDescriptor, 1),
+		utils.func_retval(?tgtFn, ?returnValue).
+
+	instr_writes_file(?instr, ?tgtFn, ?fileDescriptor, ?returnValue) :-
+		utils.instr_calls_func_with_name(?instr, ?tgtFn, ?name),
+		(
+		    ?name = "fwrite";
+		    ?name = "fwrite_s"
+		),
+		utils.instr_calls_func_with_name(?instr, ?tgtFn, ?name),
+		utils.called_function_argument(?instr, ?tgtFn, ?fileDescriptor, 3),
+		utils.func_retval(?tgtFn, ?returnValue).
+
+	//
+	// file_opened
+	//
+
+	file_opened(?callInstr, ?fileDescriptor, ?filenameOperand, ?modeOperand) :-
+		instr_opens_file(?callInstr, _, ?fileDescriptor, ?filenameOperand, ?modeOperand).
+
+	//
+	// file_read
+	//
+
+	// this predicate assumes that the mode is a constant (global) string
+	file_read(?callInstr, ?fileDescriptor, ?filenameOperand, ?modeOperand) :-
+		file_opened(_, ?fileDescriptor, ?filenameOperand, ?modeOperand),
+		utils.operand_allocation(?modeOperand, ?modeAlloc),
+		instr_reads_file(?callInstr, _, ?fileDescriptor, _),
+		utils.const_alloc_value(?modeAlloc, ?modeValue),
+		contains("r", ?modeValue).
+
+	//
+	// file_closed
+	//
+
+	file_closed(?callInstr, ?fileDescriptor, ?returnValue) :-
+		instr_closes_file(?callInstr, _, ?fileDescriptor, ?returnValue).
+}

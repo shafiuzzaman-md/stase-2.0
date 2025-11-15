@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../inputs"
+		},
+		{
+			"path": "../stase_generated"
+		},
+		{
+			"path": "../stase_output"
+		},
+		{
+			"path": "../formatted_output"
+		}
+	],
+	"settings": {}
+}

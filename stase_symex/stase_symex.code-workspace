@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../edk2-testcases-main"
+		},
+		{
+			"path": "../inputs"
+		},
+		{
+			"path": "../stase_generated_last"
+		}
+	],
+	"settings": {}
+}

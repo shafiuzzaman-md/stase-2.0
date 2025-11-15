@@ -1,0 +1,30 @@
+[
+  {
+    "vul_type": "STACK_EXEC",
+    "template_assertion": "klee_assert(<NonExecCond> && \"stack-exec vulnerability\");",
+    "placeholders": {
+      "NonExecCond": "Boolean expression that verifies the page is non-executable"
+    },
+    "explanation": "Fail if a stack page is mapped executable."
+  },
+  {
+    "vul_type": "STACK_WRITE",
+    "template_assertion": "klee_assert((uintptr_t)<Src> + <Size> <= (uintptr_t)<DstEnd>);",
+    "placeholders": {
+      "Src": "Input buffer pointer",
+      "Size": "Number of bytes being copied",
+      "DstEnd": "First byte past the destination stack buffer"
+    },
+    "explanation": "Detect an out-of-bounds copy into adjacent stack variables."
+  },
+  {
+    "vul_type": "DANGLING_PTR",
+    "template_assertion": "klee_assert((uintptr_t)<Ptr> >= <PoolBase> && (uintptr_t)<Ptr> + sizeof(*<Ptr>) <= <PoolLimit>);",
+    "placeholders": {
+      "Ptr": "Protocol/interface pointer",
+      "PoolBase": "Base address of the owning pool",
+      "PoolLimit": "First address past the pool’s end"
+    },
+    "explanation": "Ensure the pointer is still within a valid allocated pool."
+  }
+]

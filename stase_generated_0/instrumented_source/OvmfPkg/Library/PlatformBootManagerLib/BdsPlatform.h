@@ -1,0 +1,189 @@
+/** @file
+  Platform BDS customizations include file.
+
+  Copyright (c) 2006 - 2017, Intel Corporation. All rights reserved.<BR>
+  SPDX-License-Identifier: BSD-2-Clause-Patent
+
+Module Name:
+
+  BdsPlatform.h
+
+Abstract:
+
+  Head file for BDS Platform specific code
+
+**/
+
+#ifndef _PLATFORM_SPECIFIC_BDS_PLATFORM_H_
+#define _PLATFORM_SPECIFIC_BDS_PLATFORM_H_
+
+#include "../../../MdePkg/Include/PiDxe.h"
+
+#include "../../../MdePkg/Include/IndustryStandard/Pci.h"
+#include "../../../MdePkg/Include/IndustryStandard/Acpi.h"
+#include "../../../MdePkg/Include/IndustryStandard/SmBios.h"
+#include "../../../MdePkg/Include/IndustryStandard/PeImage.h"
+#include "../../Include/IndustryStandard/Virtio095.h"
+
+#include "../../../MdePkg/Include/Library/DebugLib.h"
+#include "../../../MdePkg/Include/Library/BaseMemoryLib.h"
+#include "../../../MdePkg/Include/Library/UefiBootServicesTableLib.h"
+#include "../../../MdePkg/Include/Library/UefiRuntimeServicesTableLib.h"
+#include "../../../MdePkg/Include/Library/MemoryAllocationLib.h"
+#include "../../../MdePkg/Include/Library/BaseLib.h"
+#include "../../../MdePkg/Include/Library/PcdLib.h"
+#include "../../../MdePkg/Include/Library/PciLib.h"
+#include "../../../MdeModulePkg/Include/Library/UefiBootManagerLib.h"
+#include "../../../MdeModulePkg/Include/Library/BootLogoLib.h"
+#include "../../../MdePkg/Include/Library/HobLib.h"
+#include "../../../MdePkg/Include/Library/UefiLib.h"
+#include "../../../MdePkg/Include/Library/DxeServicesTableLib.h"
+#include "../../../MdePkg/Include/Library/DevicePathLib.h"
+#include "../../../MdePkg/Include/Library/IoLib.h"
+#include "../../Include/Library/NvVarsFileLib.h"
+#include "../../Include/Library/QemuFwCfgLib.h"
+#include "../../Include/Library/QemuFwCfgS3Lib.h"
+#include "../../Include/Library/QemuBootOrderLib.h"
+
+#include "../../../MdePkg/Include/Protocol/Decompress.h"
+#include "../../../MdePkg/Include/Protocol/PciIo.h"
+#include "../../../MdePkg/Include/Protocol/FirmwareVolume2.h"
+#include "../../../MdePkg/Include/Protocol/SimpleFileSystem.h"
+#include "../../../MdePkg/Include/Protocol/PciRootBridgeIo.h"
+#include "../../../MdePkg/Include/Protocol/S3SaveState.h"
+#include "../../../MdePkg/Include/Protocol/DxeSmmReadyToLock.h"
+#include "../../../MdePkg/Include/Protocol/LoadedImage.h"
+
+#include "../../../MdePkg/Include/Guid/Acpi.h"
+#include "../../../MdePkg/Include/Guid/SmBios.h"
+#include "../../../MdePkg/Include/Guid/HobList.h"
+#include "../../../MdePkg/Include/Guid/GlobalVariable.h"
+#include "../../../MdePkg/Include/Guid/EventGroup.h"
+#include "../../../SourceLevelDebugPkg/Include/Guid/DebugAgentGuid.h"
+
+#include "../../Include/OvmfPlatforms.h"
+
+extern EFI_DEVICE_PATH_PROTOCOL  *gPlatformConnectSequence[];
+extern ACPI_HID_DEVICE_PATH      gPnpPs2KeyboardDeviceNode;
+extern ACPI_HID_DEVICE_PATH      gPnp16550ComPortDeviceNode;
+extern UART_DEVICE_PATH          gUartDeviceNode;
+extern VENDOR_DEVICE_PATH        gTerminalTypeDeviceNode;
+
+#define PCI_DEVICE_PATH_NODE(Func, Dev) \
+  { \
+    { \
+      HARDWARE_DEVICE_PATH, \
+      HW_PCI_DP, \
+      { \
+        (UINT8) (sizeof (PCI_DEVICE_PATH)), \
+        (UINT8) ((sizeof (PCI_DEVICE_PATH)) >> 8) \
+      } \
+    }, \
+    (Func), \
+    (Dev) \
+  }
+
+#define PNPID_DEVICE_PATH_NODE(PnpId) \
+  { \
+    { \
+      ACPI_DEVICE_PATH, \
+      ACPI_DP, \
+      { \
+        (UINT8) (sizeof (ACPI_HID_DEVICE_PATH)), \
+        (UINT8) ((sizeof (ACPI_HID_DEVICE_PATH)) >> 8) \
+      }, \
+    }, \
+    EISA_PNP_ID((PnpId)), \
+    0 \
+  }
+
+#define gPciIsaBridge \
+  PCI_DEVICE_PATH_NODE(0, 0x1f)
+
+#define gP2PBridge \
+  PCI_DEVICE_PATH_NODE(0, 0x1e)
+
+#define gPnpPs2Keyboard \
+  PNPID_DEVICE_PATH_NODE(0x0303)
+
+#define gPnp16550ComPort \
+  PNPID_DEVICE_PATH_NODE(0x0501)
+
+#define gUart \
+  { \
+    { \
+      MESSAGING_DEVICE_PATH, \
+      MSG_UART_DP, \
+      { \
+        (UINT8) (sizeof (UART_DEVICE_PATH)), \
+        (UINT8) ((sizeof (UART_DEVICE_PATH)) >> 8) \
+      } \
+    }, \
+    0, \
+    115200, \
+    8, \
+    1, \
+    1 \
+  }
+
+#define gVtUtf8Terminal \
+  { \
+    { \
+      MESSAGING_DEVICE_PATH, \
+      MSG_VENDOR_DP, \
+      { \
+        (UINT8) (sizeof (VENDOR_DEVICE_PATH)), \
+        (UINT8) ((sizeof (VENDOR_DEVICE_PATH)) >> 8) \
+      } \
+    }, \
+    DEVICE_PATH_MESSAGING_VT_UTF8 \
+  }
+
+#define gEndEntire \
+  { \
+    END_DEVICE_PATH_TYPE, \
+    END_ENTIRE_DEVICE_PATH_SUBTYPE, \
+    { \
+      END_DEVICE_PATH_LENGTH, \
+      0 \
+    } \
+  }
+
+#define PCI_CLASS_SCC        0x07
+#define PCI_SUBCLASS_SERIAL  0x00
+#define PCI_IF_16550         0x02
+#define IS_PCI_16550SERIAL(_p)  IS_CLASS3 (_p, PCI_CLASS_SCC, PCI_SUBCLASS_SERIAL, PCI_IF_16550)
+#define IS_PCI_ISA_PDECODE(_p)  IS_CLASS3 (_p, PCI_CLASS_BRIDGE, PCI_CLASS_BRIDGE_ISA_PDECODE, 0)
+
+typedef struct {
+  EFI_DEVICE_PATH_PROTOCOL    *DevicePath;
+  UINTN                       ConnectType;
+} PLATFORM_CONSOLE_CONNECT_ENTRY;
+
+#define CONSOLE_OUT  BIT0
+#define CONSOLE_IN   BIT1
+#define STD_ERROR    BIT2
+extern PLATFORM_CONSOLE_CONNECT_ENTRY  gPlatformConsole[];
+extern PLATFORM_CONSOLE_CONNECT_ENTRY  gXenPlatformConsole[];
+
+//
+// Platform BDS Functions
+//
+
+VOID
+PlatformInitializeConsole (
+  IN PLATFORM_CONSOLE_CONNECT_ENTRY  *PlatformConsole
+  );
+
+/**
+  Loads and boots UEFI Linux via the FwCfg interface.
+
+  @retval    EFI_NOT_FOUND - The Linux kernel was not found
+
+**/
+EFI_STATUS
+TryRunningQemuKernel (
+  VOID
+  );
+
+#endif // _PLATFORM_SPECIFIC_BDS_PLATFORM_H_

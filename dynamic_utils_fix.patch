@@ -1,0 +1,21 @@
+diff --git a/linux/src/drivers/misc/dynamic_util.c b/linux/src/drivers/misc/dynamic_util.c
+index 5646dc9..6c9eb9c 100644
+--- a/linux/src/drivers/misc/dynamic_util.c
++++ b/linux/src/drivers/misc/dynamic_util.c
+@@ -20,12 +20,13 @@ void make_dynamic_area(void) {
+     }
+ 
+     out:
++    	return;
+ }
+ 
+ static int __init dynamic_util_driver_init(void) {
+     return 0;
+ }
+ 
+-core_initcall(dynamic_util_driver_init);
++//core_initcall(dynamic_util_driver_init);
+ 
+-EXPORT_SYMBOL(make_dynamic_area); 
+\ No newline at end of file
++EXPORT_SYMBOL(make_dynamic_area); 

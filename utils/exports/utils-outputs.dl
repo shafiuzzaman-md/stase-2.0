@@ -1,0 +1,26 @@
+// THIS FILE HAS BEEN GENERATED AUTOMATICALLY! DO NOT EDIT!
+//
+// NB: Remember to add the path to the parent analysis file:
+// #include "utils.dl"
+.init UtilsDebug = Utils
+.output UtilsDebug.operand_allocation
+.output UtilsDebug.instr_calls_func_with_name
+.output UtilsDebug.global_var_alloc_by_type
+.output UtilsDebug.var_alloc_by_type
+.output UtilsDebug.alloc_by_type
+.output UtilsDebug.called_function_argument
+.output UtilsDebug.function_argument
+.output UtilsDebug.const_alloc_value
+.output UtilsDebug.func_retval
+.output UtilsDebug.constant_ascii_representation
+.output UtilsDebug.var_alias
+.output UtilsDebug.unknown_var_alias
+.output UtilsDebug.global_var_alias
+.output UtilsDebug.stack_var_alias
+.output UtilsDebug.heap_var_alias
+.output UtilsDebug.variable_dereference
+.output UtilsDebug.struct_dereference
+.output UtilsDebug.tainted_variable
+.output UtilsDebug.operand_is_bytes_pointer
+.output UtilsDebug.related_address
+.output UtilsDebug.known_constant

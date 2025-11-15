@@ -1,0 +1,6 @@
+config MOODPOT
+  tristate "MoodPot char interface"
+  default m
+  depends on MOODPOT_CORE && KHEAP
+  help
+    Char device interface for userspace interaction with moodpot devices.

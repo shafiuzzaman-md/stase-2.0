@@ -1,0 +1,423 @@
+Preconditions:
+message_buffer : int32 = symbolic
+(query [(Eq FALSE
+             (Eq 0 (Read w8 0 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 1 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 2 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 3 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 4 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 5 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 6 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 7 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 8 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 9 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 10 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 11 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 12 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 13 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 14 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 15 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 16 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 17 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 18 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 19 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 20 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 21 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 22 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 23 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 24 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 25 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 26 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 27 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 28 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 29 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 30 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 31 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 32 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 33 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 34 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 35 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 36 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 37 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 38 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 39 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 40 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 41 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 42 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 43 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 44 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 45 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 46 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 47 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 48 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 49 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 50 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 51 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 52 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 53 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 54 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 55 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 56 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 57 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 58 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 59 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 60 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 61 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 62 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 63 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 64 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 65 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 66 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 67 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 68 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 69 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 70 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 71 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 72 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 73 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 74 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 75 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 76 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 77 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 78 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 79 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 80 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 81 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 82 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 83 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 84 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 85 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 86 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 87 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 88 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 89 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 90 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 91 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 92 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 93 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 94 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 95 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 96 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 97 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 98 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 99 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 100 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 101 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 102 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 103 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 104 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 105 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 106 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 107 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 108 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 109 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 110 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 111 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 112 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 113 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 114 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 115 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 116 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 117 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 118 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 119 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 120 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 121 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 122 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 123 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 124 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 125 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 126 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 127 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 128 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 129 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 130 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 131 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 132 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 133 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 134 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 135 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 136 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 137 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 138 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 139 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 140 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 141 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 142 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 143 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 144 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 145 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 146 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 147 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 148 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 149 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 150 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 151 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 152 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 153 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 154 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 155 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 156 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 157 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 158 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 159 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 160 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 161 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 162 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 163 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 164 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 165 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 166 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 167 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 168 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 169 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 170 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 171 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 172 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 173 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 174 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 175 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 176 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 177 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 178 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 179 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 180 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 181 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 182 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 183 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 184 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 185 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 186 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 187 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 188 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 189 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 190 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 191 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 192 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 193 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 194 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 195 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 196 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 197 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 198 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 199 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 200 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 201 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 202 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 203 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 204 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 205 message_buffer)))
+         (Eq FALSE
+             (Eq 0 (Read w8 206 message_buffer)))
+         (Eq 0 (Read w8 207 message_buffer))]
+        FALSE)
+
+Postconditions:
+Error: ASSERTION FAIL: !pte_exec(*pte) && "stack-exec vulnerability: page is executable"
+File: ../inputs/../stase_generated_last/instrumented_source/drivers/misc/dynamic_util.c
+Line: 19

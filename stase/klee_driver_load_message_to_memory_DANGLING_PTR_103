@@ -1,0 +1,35 @@
+// klee_driver_witness.c
+#include <klee/klee.h>
+
+int  usb_logger_init(void);
+void usb_logger_exit(void);
+
+/* Whether exit calls unregister (symbolic) */
+static _Bool do_unregister;
+
+extern _Bool module_alive;         // from instrumentation
+extern _Bool notifier_registered;  // from instrumentation
+
+/* Expose a hook the module calls in exit() to (not) unregister */
+void __stase_unregister_hook(void) {
+  if (do_unregister) {
+    extern int usb_unregister_notify(struct notifier_block *);
+    extern struct notifier_block usb_nb;
+    usb_unregister_notify(&usb_nb);
+    notifier_registered = 0;     // bind at actual instruction in your pass
+  }
+}
+
+int main(void) {
+  klee_make_symbolic(&do_unregister, sizeof(do_unregister), "do_unregister");
+
+  // 1st load → register
+  usb_logger_init();
+
+  // 1st unload → maybe unregister (symbolic)
+  usb_logger_exit();  // (inside, call __stase_unregister_hook())
+
+  // 2nd load → assert checked at pre-register site
+  usb_logger_init();  // if do_unregister==0 ⇒ !module_alive && notifier_registered
+  return 0;
+}

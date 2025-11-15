@@ -1,0 +1,9 @@
+{
+    "type": "CONTROL_FLOW_HIJACKING",
+    "file": "drivers/usb/misc/vusbx.c",
+    "line": 42,
+    "variables": [
+        "cmd",
+        "arg"
+    ]
+}

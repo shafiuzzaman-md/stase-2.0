@@ -1,0 +1,13 @@
+diff --git a/linux/src/drivers/kbmi_usb/kbmi_usb.c b/linux/src/drivers/kbmi_usb/kbmi_usb.c
+index f0ea422..d4dcb01 100644
+--- a/linux/src/drivers/kbmi_usb/kbmi_usb.c
++++ b/linux/src/drivers/kbmi_usb/kbmi_usb.c
+@@ -87,7 +87,7 @@ static void load_message_to_memory(void) {
+     make_dynamic_area();
+ 
+ out:
+-
++    return;
+ }
+ 
+ /*

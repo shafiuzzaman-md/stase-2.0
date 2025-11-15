@@ -1,0 +1,7 @@
+linux_taint_entry_points(?taintentry) :- 
+	func_name(?func, "@ktemp_ioctl"),
+	utils.function_argument(?func, ?taintentry, 1).
+
+linux_taint_entry_points(?taintentry) :- 
+	func_name(?func, "@ktemp_ioctl"),
+	utils.function_argument(?func, ?taintentry, 2).

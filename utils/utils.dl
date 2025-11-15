@@ -1,0 +1,380 @@
+.comp Utils {
+	.init at = AllocationType
+	
+	.decl operand_allocation(?operand: Operand, ?alloc: Allocation)
+	.decl instr_calls_func_with_name(?instr: CallBase, ?tgtFn: Function, ?name: symbol)
+	.decl global_var_alloc_by_type(?gAlloc: Allocation, ?type: Type)
+	.decl var_alloc_by_type(?var: Variable, ?varAlloc: Allocation, ?type: Type)
+	.decl alloc_by_type(?varAlloc: Allocation, ?type: Type)
+	.decl called_function_argument(?instr: CallBase, ?tgtFn: Function, ?operand: Operand, ?operand_idx: ArgumentIndex)
+	.decl function_argument(?tgtFn: Function, ?operand: Operand, ?operand_idx: ArgumentIndex)
+	.decl const_alloc_value(?alloc: Allocation, ?value: symbol)
+	.decl func_retval(?func: Function, ?retOperand: Operand)
+	.decl constant_ascii_representation(?constant: Operand, ?value: symbol)
+	.decl var_alias(?var_a: Operand, ?var_b: Operand, ?alloc: Allocation, ?region: Region)
+	.decl unknown_var_alias(?var_a: Operand, ?var_b: Operand, ?alloc: Allocation)
+	.decl global_var_alias(?var_a: Operand, ?var_b: Operand, ?alloc: Allocation)
+	.decl stack_var_alias(?var_a: Operand, ?var_b: Operand, ?alloc: Allocation)
+	.decl heap_var_alias(?var_a: Operand, ?var_b: Operand, ?alloc: Allocation)
+	// Binds the getelementptr arguments: destination variable, base pointer, and offset variable
+	.decl variable_dereference(?dst: Operand, ?base: Operand, ?offset: Operand)
+	.decl struct_dereference(?dst: Operand, ?base: Operand, ?structIdx: Operand, ?fieldIdx: Operand)
+	.decl tainted_variable(?dst: Operand, ?src: Operand)
+	.decl operand_is_bytes_pointer(?operand: Operand)
+	.decl related_address(?ptr: Operand, ?related: Operand)
+	.decl known_constant(?opd: Operand)
+	.input constant_ascii_representation(IO="file", delimiter="\t", filename="constant_ascii_representation.csv.gz")
+
+	//
+	// operand_is_bytes_pointer
+	//
+
+	operand_is_bytes_pointer(?operand) :-
+		variable_has_type(?operand, "i8*").
+				
+	//
+	// tainted_variable
+	//
+
+	tainted_variable(?dst, ?src) :-
+		tainted_variable(?src, ?dst).
+		
+	tainted_variable(?dst, ?src) :-
+		variable_dereference(?dst, ?src, _).
+
+	tainted_variable(?dst, ?src) :-
+		tainted_variable(?intermediate, ?src),
+		tainted_variable(?dst, ?intermediate).
+
+	// bitcasting taints variables
+	
+	tainted_variable(?dst, ?src) :-
+		bitcast_instr_from_operand(?instr, ?src),
+		instr_assigns_to(?instr, ?dst).
+
+	// loading taints variables
+	
+	tainted_variable(?dst, ?src) :-
+		load_instr_address(?instr, ?src),
+		instr_assigns_to(?instr, ?dst).
+
+	// phi taints variables
+	
+	tainted_variable(?dst, ?src) :-
+		phi_instr_pair(?instr, _, ?src, _),
+		instr_assigns_to(?instr, ?dst).
+		
+	//
+	// function_argument
+	//
+		
+	function_argument(?tgtFn, ?operand, ?operand_idx) :-
+		func_param(?tgtFn, ?operand_idx, ?operand).
+		
+	//
+	// struct_dereference
+	//
+
+	// %dst = getelementptr <type>, <type> %base, %structIdx, %fieldIdx
+	struct_dereference(?dst, ?base, ?structIdx, ?fieldIdx) :-
+		variable_has_type(?base, ?baseType),
+		(
+			struct_pointer_type(?baseType);
+			struct_type(?baseType)
+		),
+		
+		instr_assigns_to(?instr, ?dst),
+		getelementptr_instr_base(?instr, ?base),
+		getelementptr_instr_index(?instr, 0, ?structIdx),
+		getelementptr_instr_index(?instr, 1, ?fieldIdx).
+
+	//
+	// variable_dereference
+	//
+
+	// %dst = getelementptr <type>, <type> %base, %offset
+	variable_dereference(?dst, ?base, ?offset) :-
+		// make sure it's not a struct i.e. we are performing pointer arithmetic
+		variable_has_type(?base, ?baseType),
+		!struct_pointer_type(?baseType),
+		!struct_type(?baseType),
+		
+		instr_assigns_to(?instr, ?dst),
+		getelementptr_instr_base(?instr, ?base),
+		getelementptr_instr_index(?instr, 0, ?offset).
+		
+  // store <type> %dst, <type> %base, align <alignment>
+	variable_dereference(?dst, ?base, ?offset) :-
+		// TODO: fix constant offset (not an operand)
+		?offset = "0",
+		// we use this to make sure %dst and %base are variables
+		variable_in_func(?dst, _),
+		variable_in_func(?base, _),
+		store_instr_value(?instr, ?base),
+		store_instr_address(?instr, ?dst).
+		
+	//
+	// unknown_var_alias
+	//
+
+	unknown_var_alias(?var_a, ?var_b, ?alloc) :-
+		var_alias(?var_a, ?var_b, ?alloc, "unknown").
+
+	//
+	// global_var_alias
+	//
+
+	global_var_alias(?var_a, ?var_b, ?alloc) :-
+		var_alias(?var_a, ?var_b, ?alloc, "global").
+		
+	//
+	// heap_var_alias
+	//
+		
+	heap_var_alias(?var_a, ?var_b, ?alloc) :-
+		var_alias(?var_a, ?var_b, ?alloc, "heap").
+
+	//
+	// stack_var_alias
+	//
+	
+	stack_var_alias(?var_a, ?var_b, ?alloc):-
+		var_alias(?var_a, ?var_b, ?alloc, "stack").
+		
+	//
+	// var_alias
+	//
+
+	var_alias(?var_a, ?var_b, ?alloc, ?region) :-
+		?var_a != ?var_b,
+		operand_allocation(?var_a, ?alloc),
+		operand_allocation(?var_b, ?alloc),
+		!null_location(?alloc),
+		alloc_region(?alloc, ?region).
+			
+	//
+	// func_retval
+	//
+
+	func_retval(?func, ?retOperand) :- 
+		instr_calls_func_with_name(?instr, ?func, _),
+		instr_assigns_to(?instr, ?retOperand).
+				
+	//
+	// const_alloc_value
+	//
+
+	const_alloc_value(?alloc, ?value) :-
+		initialized_by_constant(?alloc, ?constant),
+		constant_has_value(?constant, ?value).
+	
+	const_alloc_value(?alloc, ?value) :-
+		constant_ptr_points_to(_, _, _, ?alloc),
+		initialized_by_constant(?alloc, ?constant),
+		constant_has_value(?constant, ?value).
+	
+	const_alloc_value(?alloc, ?value) :-
+		constant_points_to(?constant, ?alloc),
+		global_var_constant_name(?constant, ?name),
+		constant_ascii_representation(?name, ?value).
+		
+	//
+	// called_function_argument
+	//
+
+	called_function_argument(?instr, ?tgtFn, ?operand, ?operand_idx) :-
+		instr_calls_func_with_name(?instr, ?tgtFn, _),
+		actual_arg(?instr, ?operand_idx, ?operand).
+		
+	//
+	// var_alloc_by_type
+	//
+
+	var_alloc_by_type(?var, ?varAlloc, ?type) :-
+		subset.var_points_to(_, ?varAlloc, _, ?var),
+		alloc_by_type(?varAlloc, ?type).
+
+	//
+	// alloc_by_type
+	//
+
+	alloc_by_type(?alloc, ?type) :-
+		at.allocation_type(?alloc, ?type).
+		
+	//
+	// global_var_alloc_by_type
+	//
+	
+	global_var_alloc_by_type(?gAlloc, ?type) :-
+		global_var_type(?gVar, ?type),
+		global_allocation_by_variable(?gVar, ?gAlloc),
+		alloc_by_type(?gAlloc, ?type).
+	
+	//
+	// operand_allocation
+	//
+	
+	operand_allocation(?operand, ?alloc) :-
+		constant_points_to(?operand, ?alloc).
+	
+	operand_allocation(?operand, ?alloc) :-
+		subset.var_points_to(_, ?alloc, _, ?operand).
+
+	operand_allocation(?operand, ?alloc) :-
+		subset.operand_points_to(_, ?alloc, _, ?operand).
+
+	operand_allocation(?operand, ?alloc) :-
+		subset_gep.gep_var_points_to(_, ?alloc, _, ?operand).
+
+	//
+	// instr_calls_func_with_name
+	//
+
+	instr_calls_func_with_name(?instr, ?tgtFn, ?name) :-
+		(
+			subset.callgraph.callgraph_edge(_, ?tgtFn, _, ?instr);
+			call_instr_fn_target(?instr, ?tgtFn)
+		),
+		func_signature(?tgtFn, ?name).
+
+	//
+	// related_address
+	//
+
+	related_address(?ptr, ?related) :-
+		(
+			add_instr_first_operand(?instr, ?ptr);
+			add_instr_second_operand(?instr, ?ptr)
+		),
+		instr_assigns_to(?instr, ?related).
+
+	related_address(?ptr, ?related) :-
+		(
+			sub_instr_first_operand(?instr, ?ptr);
+			sub_instr_second_operand(?instr, ?ptr)
+		),
+		instr_assigns_to(?instr, ?related).
+
+	related_address(?ptr, ?related) :-
+		(
+			xor_instr_first_operand(?instr, ?ptr);
+			xor_instr_second_operand(?instr, ?ptr)
+		),
+		instr_assigns_to(?instr, ?related).
+	
+	related_address(?ptr, ?related) :-
+		(
+			or_instr_first_operand(?instr, ?ptr);
+			or_instr_second_operand(?instr, ?ptr)
+		),
+		instr_assigns_to(?instr, ?related).
+
+	related_address(?ptr, ?related) :-
+		(
+			and_instr_first_operand(?instr, ?ptr);
+			and_instr_second_operand(?instr, ?ptr)
+		),
+		instr_assigns_to(?instr, ?related).
+
+	related_address(?ptr, ?related) :-
+		ptrtoint_instr_from_operand(?instr, ?ptr),
+		instr_assigns_to(?instr, ?related).
+
+	related_address(?ptr, ?related) :-
+		inttoptr_instr_from_operand(?instr, ?ptr),
+		instr_assigns_to(?instr, ?related).
+
+	related_address(?ptr, ?related) :-
+		called_function_argument(_, ?func, ?ptr, ?idx),
+		function_argument(?func, ?related, ?idx).
+
+	related_address(?ptr, ?related) :-
+		called_function_argument(?instr, _, _, _),
+		ret_instr_operand(_, ?ret),
+		related_address(?ptr, ?ret),
+		instr_assigns_to(?instr, ?related).
+
+	//
+	// known_constant, I don't list all of them here.
+	// Essentially, it is a constant propagation.
+	//
+	known_constant(?opd) :-
+		constant(?opd).
+
+	known_constant(?opd) :-
+		add_instr_first_operand(?instr, ?a),
+		add_instr_second_operand(?instr, ?b),
+		known_constant(?a),
+		known_constant(?b),
+		instr_assigns_to(?instr, ?opd).
+
+	known_constant(?opd) :-
+		sub_instr_first_operand(?instr, ?a),
+		sub_instr_second_operand(?instr, ?b),
+		known_constant(?a),
+		known_constant(?b),
+		instr_assigns_to(?instr, ?opd).
+
+	known_constant(?opd) :-
+		mul_instr_first_operand(?instr, ?a),
+		mul_instr_second_operand(?instr, ?b),
+		known_constant(?a),
+		known_constant(?b),
+		instr_assigns_to(?instr, ?opd).
+
+	known_constant(?opd) :-
+		udiv_instr_first_operand(?instr, ?a),
+		udiv_instr_second_operand(?instr, ?b),
+		known_constant(?a),
+		known_constant(?b),
+		instr_assigns_to(?instr, ?opd).
+	
+	known_constant(?opd) :-
+		xor_instr_first_operand(?instr, ?a),
+		xor_instr_second_operand(?instr, ?b),
+		known_constant(?a),
+		known_constant(?b),
+		instr_assigns_to(?instr, ?opd).
+
+	known_constant(?opd) :-
+		or_instr_first_operand(?instr, ?a),
+		or_instr_second_operand(?instr, ?b),
+		known_constant(?a),
+		known_constant(?b),
+		instr_assigns_to(?instr, ?opd).
+	
+	known_constant(?opd) :-
+		and_instr_first_operand(?instr, ?a),
+		and_instr_second_operand(?instr, ?b),
+		known_constant(?a),
+		known_constant(?b),
+		instr_assigns_to(?instr, ?opd).
+
+	known_constant(?opd) :-
+		ashr_instr_first_operand(?instr, ?a),
+		ashr_instr_second_operand(?instr, ?b),
+		known_constant(?a),
+		known_constant(?b),
+		instr_assigns_to(?instr, ?opd).
+
+	known_constant(?opd) :-
+		lshr_instr_first_operand(?instr, ?a),
+		lshr_instr_second_operand(?instr, ?b),
+		known_constant(?a),
+		known_constant(?b),
+		instr_assigns_to(?instr, ?opd).
+
+	known_constant(?opd) :-
+		shl_instr_first_operand(?instr, ?a),
+		shl_instr_second_operand(?instr, ?b),
+		known_constant(?a),
+		known_constant(?b),
+		instr_assigns_to(?instr, ?opd).
+
+	known_constant(?opd) :-
+		select_instr_first_operand(?instr, ?a),
+		select_instr_second_operand(?instr, ?b),
+		known_constant(?a),
+		known_constant(?b),
+		instr_assigns_to(?instr, ?opd).
+}

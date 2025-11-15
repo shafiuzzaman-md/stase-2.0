@@ -1,0 +1,8 @@
+config FWINFO_DEV
+    tristate "Firmware Info Parsing Device"
+    depends on KCHUNK
+    default m
+    help
+      Provides a character device for parsing TLV-encoded firmware blobs.
+      Performs field validation, CRC32 integrity checking, and exposes
+      parsed metadata or validation errors via a per-session interface.

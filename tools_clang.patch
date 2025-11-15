@@ -1,0 +1,14 @@
+diff --git a/Conf/tools_def.txt b/Conf/tools_def.txt
+index f541f28..2ef7e78 100755
+--- a/Conf/tools_def.txt
++++ b/Conf/tools_def.txt
+@@ -1824,8 +1824,8 @@ RELEASE_CLANGPDB_X64_GENFW_FLAGS    =
+ 
+-NOOPT_CLANGPDB_X64_CC_FLAGS         = DEF(CLANGPDB_ALL_CC_FLAGS) -m64 "-DEFIAPI=__attribute__((ms_abi))" -mno-red-zone -mcmodel=small -O0 DEF(CLANGPDB_X64_TARGET) -gcodeview -funwind-tables
++NOOPT_CLANGPDB_X64_CC_FLAGS         = DEF(CLANGPDB_ALL_CC_FLAGS) -m64 "-DEFIAPI=__attribute__((ms_abi))" -mno-red-zone -mcmodel=small -O0 DEF(CLANGPDB_X64_TARGET) -gcodeview -funwind-tables -flto -Xclang -disable-O0-optnone
+ NOOPT_CLANGPDB_X64_DLINK_FLAGS      = /NOLOGO /NODEFAULTLIB /IGNORE:4001 /OPT:REF /OPT:ICF=10 /ALIGN:32 /FILEALIGN:32 /Machine:X64 /DLL /ENTRY:$(IMAGE_ENTRY_POINT) /SUBSYSTEM:EFI_BOOT_SERVICE_DRIVER /SAFESEH:NO /BASE:0 /DEBUG:GHASH /MLLVM:-exception-model=wineh /lldmap
+ NOOPT_CLANGPDB_X64_DLINK2_FLAGS     =
+ NOOPT_CLANGPDB_X64_GENFW_FLAGS      = --keepexceptiontable
+ 
+ ####################################################################################
+ #

@@ -1,0 +1,6 @@
+config MOODPOT_CORE
+  default y
+  bool "MoodPot core device logic"
+  depends on KHEAP
+  help
+    Built-in core logic for moodpot simulation and pot management.

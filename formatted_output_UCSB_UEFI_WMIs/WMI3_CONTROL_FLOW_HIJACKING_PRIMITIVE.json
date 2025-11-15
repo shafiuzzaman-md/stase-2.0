@@ -1,0 +1,8 @@
+{
+    "type": "CONTROL_FLOW_HIJACKING",
+    "file": "Sample2TestsDriver.c",
+    "line": 95,
+    "variables": [
+         "*CommBuffer"
+    ]
+}

@@ -1,0 +1,8 @@
+{
+    "type": "OOB_WRITE",
+    "file": "CharConverter.c",
+    "line": 149,
+    "variables": [
+        "*CommBuffer"
+    ]
+}

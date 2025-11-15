@@ -1,0 +1,5 @@
+config KNOTES
+  default m
+  tristate "knotes Kernel Module"
+  help
+    knotes implementation.

@@ -1,0 +1,83 @@
+Preconditions:
+array ctx->result_buf[len][8] : w32 -> w8 = symbolic
+file : int32 = symbolic
+kbuf : int32 = symbolic
+array req_buf->data_len[2] : w32 -> w8 = symbolic
+(query [(Eq FALSE
+             (Eq 0
+                 (ReadLSB int64 0 kbuf)))
+         (Ult (ZExt int64 (ReadLSB w16 0 req_buf->data_len))
+              (ReadLSB int64 0 ctx->result_buf[len]))
+         (Eq FALSE
+             (Ult (Add int64 18446609849176293376
+                           N0:(ReadLSB int64 0 file))
+                  1))
+         (Eq FALSE
+             (Ult (Add int64 18446609849042075648 N0) 1))
+         (Eq FALSE
+             (Ult (Add int64 18446609848907857920 N0) 1))
+         (Eq FALSE
+             (Ult (Add int64 18446609848773640192 N0) 1))
+         (Eq FALSE
+             (Ult (Add int64 18446609848639422464 N0) 1))
+         (Eq FALSE
+             (Ult (Add int64 18446609848505204736 N0) 1))
+         (Eq FALSE
+             (Ult (Add int64 18446609848236769280 N0) 1))
+         (Eq FALSE
+             (Ult (Add int64 18446609847968333824 N0) 1))
+         (Eq FALSE
+             (Ult (Add int64 18446609847699898368 N0) 1))
+         (Eq FALSE
+             (Ult (Add int64 18446609847163027456 N0) 1))
+         (Eq FALSE
+             (Ult (Add int64 18446609846626156544 N0) 1))
+         (Eq FALSE
+             (Ult (Add int64 18446609846089285632 N0) 1))
+         (Eq FALSE
+             (Ult (Add int64 18446609845552414720 N0) 1))
+         (Eq FALSE
+             (Ult (Add int64 18446609845283979264 N0) 1))
+         (Eq FALSE
+             (Ult (Add int64 18446609845015543808 N0) 1))
+         (Eq FALSE
+             (Ult (Add int64 18446609844747108352 N0) 1))
+         (Eq FALSE
+             (Ult (Add int64 18446609844478672896 N0) 1))
+         (Eq FALSE
+             (Ult (Add int64 18446609844210237440 N0) 1))
+         (Eq FALSE
+             (Ult (Add int64 18446609843941801984 N0) 1))
+         (Eq FALSE
+             (Ult (Add int64 18446609843404931072 N0) 1))
+         (Eq FALSE
+             (Ult (Add int64 18446609842868060160 N0) 1))
+         (Eq FALSE
+             (Ult (Add int64 18446609842331189248 N0) 1))
+         (Eq FALSE
+             (Ult (Add int64 18446609841794318336 N0) 1))
+         (Eq FALSE
+             (Ult (Add int64 18446609841525882880 N0) 1))
+         (Eq FALSE
+             (Ult (Add int64 18446609841391665152 N0) 1))
+         (Eq FALSE
+             (Ult (Add int64 18446609841257447424 N0) 1))
+         (Eq FALSE
+             (Ult (Add int64 18446609841123229696 N0) 1))
+         (Eq FALSE
+             (Ult (Add int64 18446609840989011968 N0) 1))
+         (Eq FALSE
+             (Ult (Add int64 18446609840854794240 N0) 1))
+         (Eq FALSE
+             (Ult (Add int64 18446609816024514560 N0) 29))
+         (Eq FALSE
+             (Ult (Add int64 18446609810655805440 N0) 233))
+         (Eq FALSE
+             (Ult (Add int64 18446609540072865792 N0) 1))
+         (Ult (Add int64 18446609505713127424 N0) 9)]
+        FALSE)
+
+Postconditions:
+Error: ASSERTION FAIL: len < result_len && "OOB Write: ctx->result_buf[len] exceeds allocated buffer"
+File: ../inputs/../stase_generated_last/instrumented_source/drivers/kcrypt/kcrypt.c
+Line: 255
